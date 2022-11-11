@@ -1,0 +1,111 @@
+* i3macs
+Integrate i3 and Emacs keybindings
+
+These functionalities works with emacsclient. After setting up, run ~emacs --daemon~ and ~emacsclient -c~
+
+** Main Work
+The ~i3macs.el~ is from [[https://sqrtminusone.xyz/posts/2021-10-04-emacs-i3/][Getting a consistent set of keybindings between i3 and Emacs]] while a bit of commented out code is from [[https://whhone.com/posts/emacs-i3-integration/][Emacs i3 Integration]] plus the bash script.
+
+If you can notice ~i3macs.el~ has more functions (=evil functions=) than I have used. Please refer to these blogs for further details. I have covered only the functionalities relevant to me such =window transpose/layout change= and =focus=.
+
+*P.s:* I have no experience of evil that's why I also did not use other functions in the ~i3macs.el~ file.
+
+** Setup
+
+*** Place your ~i3macs.el~ in emacs dir
+
+#+begin_src elisp
+(add-to-list 'load-path "~/.emacs.d/elpa/dir-manual-installations/")
+#+end_src
+
+**** Include in init.el file
+#+begin_src elisp
+(require 'i3macs)
+#+end_src
+*<OR>*
+#+begin_src elisp
+(load-file "~/.emacs.d/elpa/dir-manual-installations/i3macs.el")
+#+end_src
+
+*** Bash Scripts
+
+**** Script#1 with i3-msg and xdotool
+
+#+begin_src bash
+#!/usr/bin/env bash
+
+string="Emacs"
+
+curr="$(xdotool getactivewindow)"
+emacs="$(xdotool search -class "$string")"
+
+if [[ "$emacs" = *"$curr"* ]]; then
+
+    command="(my/emacs-i3-integration \"$@\")"
+    if emacsclient -e "$command"; then
+        exit
+    fi
+fi
+
+# fallback to i3
+i3-msg $@
+
+i3-msg focus child
+
+#+end_src
+
+**** Script#2 for i3-msg and jq dependency
+
+You would need to install ~jq~ dependency.
+
+#+begin_src shell
+sudo apt install jq
+#+end_src
+
+***** To find the class of Emacs:
+#+begin_src bash
+i3-msg -t get_tree | jq '.. | objects | select(.focused==true).window_properties.class' | tr -d '"'
+#+end_src
+
+#+begin_src bash
+#!/usr/bin/env bash
+
+# https://linuxize.com/post/how-to-check-if-string-contains-substring-in-bash/
+# Check substring using Wildcards: *"Substring"*
+
+string="Emacs"
+
+if [[ "$(i3-msg -t get_tree | jq '.. | objects | select(.focused==true).window_properties.class' | tr -d '"')" == *"$string"* ]]; then
+    command="(my/emacs-i3-integration \"$@\")"
+    if emacsclient -e "$command"; then
+        exit
+    fi
+fi
+
+# fallback to i3
+i3-msg $@
+
+i3-msg focus child
+#+end_src
+
+**** i3 config for focus switch
+
+#+begin_example
+bindsym $win+Left exec bash i3macs.sh focus left
+bindsym $win+Down exec bash i3macs.sh focus down
+bindsym $win+Up exec bash i3macs.sh focus up
+bindsym $win+Right exec bash i3macs.sh focus right
+#+end_example
+
+*** For Layout change
+
+#+begin_src elisp
+(use-package transpose-frame
+  :ensure t)
+#+end_src
+
+**** i3 config for layout change
+
+#+begin_example
+bindsym $win+Ctrl+s exec bash i3macs.sh layout toggle split
+#+end_example
