@@ -76,9 +76,9 @@ i3-msg -t get_tree | jq '.. | objects | select(.focused==true).window_properties
 # Check substring using Wildcards: *"Substring"*
 
 string="Emacs"
+curr_ws="$(i3-msg -t get_tree | jq '.. | objects | select(.focused==true).window_properties.class' | tr -d '"')"
 
-if [[ "$(i3-msg -t get_tree | jq '.. | objects |
-select(.focused==true).window_properties.class' | tr -d '"')" == *"$string"* ]]; then
+if [[ "$curr_ws" == *"$string"* ]]; then
     command="(my/emacs-i3-integration \"$@\")"
     if emacsclient -e "$command"; then
         exit
@@ -90,6 +90,8 @@ i3-msg $@
 
 i3-msg focus child
 #+end_src
+
+#+RESULTS:
 
 i3 config for focus change
 
@@ -115,8 +117,8 @@ bindsym $win+Ctrl+s exec bash i3macs.sh layout toggle split
 
 ** After Setup
 
-These functionalities work with emacsclient. Run
-
+These functionalities work with emacsclient.
+Run
 #+begin_src shell
 emacs --daemon
 #+end_src
