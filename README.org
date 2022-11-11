@@ -1,11 +1,12 @@
 * i3macs
 Integrate i3 and Emacs keybindings
+
 ** Main Work
-The ~i3macs.el~ is from [[https://sqrtminusone.xyz/posts/2021-10-04-emacs-i3/][Getting a consistent set of keybindings between i3 and Emacs]] while a bit of commented out code in ~.el~ and the part of ~bash script~ are from [[https://whhone.com/posts/emacs-i3-integration/][Emacs i3 Integration]].
+The ~i3macs.el~ is from [[https://sqrtminusone.xyz/posts/2021-10-04-emacs-i3/][Getting a consistent set of keybindings between i3 and Emacs]] while a bit of code commented out in ~.el~ and mostly the ~bash scripts~ are from [[https://whhone.com/posts/emacs-i3-integration/][Emacs i3 Integration]].
 
-If you can notice ~i3macs.el~ has more functions (=evil functions=). Please refer to these blogs for further details. I have covered only the functionalities relevant to me such =window transpose/layout change= and =focus=.
+If you can notice ~i3macs.el~ has more functions (=evil functions=). Please refer to these blogs for further details. I have covered only the functionalities relevant to me such as =window transpose/layout change= and =focus=.
 
-*P.s:* I have no experience of evil that's why I also did not use other functions in the ~i3macs.el~ file.
+*P.s:* I have no experience of evil that's why I also did not use other functions mentioned in the ~i3macs.el~ file.
 
 ** Setup
 
@@ -27,7 +28,7 @@ If you can notice ~i3macs.el~ has more functions (=evil functions=). Please refe
 
 ** Bash Scripts
 
-*** i3-msg and xdotool Script#1
+*** Script#1 i3-msg and xdotool
 
 **** i3macs.sh
 #+begin_src bash
@@ -53,7 +54,7 @@ i3-msg focus child
 
 #+end_src
 
-*** i3-msg and jq dependency Script#2
+*** Script#2 i3-msg and jq
 
 You would need to install ~jq~ dependency.
 
@@ -61,7 +62,7 @@ You would need to install ~jq~ dependency.
 sudo apt install jq
 #+end_src
 
-If want to find out the class of Emacs in i3-msg tree:
+If you want to find out the class of Emacs in i3-msg tree:
 #+begin_src bash
 i3-msg -t get_tree | jq '.. | objects | select(.focused==true).window_properties.class' | tr -d '"'
 #+end_src
@@ -76,7 +77,8 @@ i3-msg -t get_tree | jq '.. | objects | select(.focused==true).window_properties
 
 string="Emacs"
 
-if [[ "$(i3-msg -t get_tree | jq '.. | objects | select(.focused==true).window_properties.class' | tr -d '"')" == *"$string"* ]]; then
+if [[ "$(i3-msg -t get_tree | jq '.. | objects |
+select(.focused==true).window_properties.class' | tr -d '"')" == *"$string"* ]]; then
     command="(my/emacs-i3-integration \"$@\")"
     if emacsclient -e "$command"; then
         exit
@@ -89,7 +91,7 @@ i3-msg $@
 i3-msg focus child
 #+end_src
 
-**** i3 config for focus switch
+i3 config for focus change
 
 #+begin_example
 bindsym $win+Left exec bash i3macs.sh focus left
@@ -98,14 +100,14 @@ bindsym $win+Up exec bash i3macs.sh focus up
 bindsym $win+Right exec bash i3macs.sh focus right
 #+end_example
 
-*** For Layout change
+*** Layout Change
 
 #+begin_src elisp
 (use-package transpose-frame
   :ensure t)
 #+end_src
 
-**** i3 config for layout change
+i3 config for layout change
 
 #+begin_example
 bindsym $win+Ctrl+s exec bash i3macs.sh layout toggle split
@@ -113,7 +115,7 @@ bindsym $win+Ctrl+s exec bash i3macs.sh layout toggle split
 
 ** After Setup
 
-These functionalities works with emacsclient. Run
+These functionalities work with emacsclient. Run
 
 #+begin_src shell
 emacs --daemon
