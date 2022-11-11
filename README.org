@@ -93,6 +93,8 @@ i3-msg focus child
 
 #+RESULTS:
 
+*** Focus Change
+
 i3 config for focus change
 
 #+begin_example
