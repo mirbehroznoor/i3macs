@@ -1,5 +1,11 @@
 * i3macs
 Integrate i3 and Emacs keybindings
+** Main Work
+The ~i3macs.el~ is from [[https://sqrtminusone.xyz/posts/2021-10-04-emacs-i3/][Getting a consistent set of keybindings between i3 and Emacs]] while a bit of commented out code in ~.el~ and the part of ~bash script~ are from [[https://whhone.com/posts/emacs-i3-integration/][Emacs i3 Integration]].
+
+If you can notice ~i3macs.el~ has more functions (=evil functions=). Please refer to these blogs for further details. I have covered only the functionalities relevant to me such =window transpose/layout change= and =focus=.
+
+*P.s:* I have no experience of evil that's why I also did not use other functions in the ~i3macs.el~ file.
 
 ** Setup
 
@@ -10,7 +16,7 @@ Integrate i3 and Emacs keybindings
 #+end_src
 
 **** Include in init.el file
-<Either>
+
 #+begin_src elisp
 (require 'i3macs)
 #+end_src
@@ -21,8 +27,9 @@ Integrate i3 and Emacs keybindings
 
 ** Bash Scripts
 
-*** Script#1: i3-msg and xdotool
+*** i3-msg and xdotool Script#1
 
+**** i3macs.sh
 #+begin_src bash
 #!/usr/bin/env bash
 
@@ -46,7 +53,7 @@ i3-msg focus child
 
 #+end_src
 
-*** Script#2: i3-msg and jq dependency
+*** i3-msg and jq dependency Script#2
 
 You would need to install ~jq~ dependency.
 
@@ -54,10 +61,12 @@ You would need to install ~jq~ dependency.
 sudo apt install jq
 #+end_src
 
-***** if want to find the class of Emacs in i3-msg tree:
+If want to find out the class of Emacs in i3-msg tree:
 #+begin_src bash
 i3-msg -t get_tree | jq '.. | objects | select(.focused==true).window_properties.class' | tr -d '"'
 #+end_src
+
+**** i3macs.sh
 
 #+begin_src bash
 #!/usr/bin/env bash
@@ -109,14 +118,8 @@ These functionalities works with emacsclient. Run
 #+begin_src shell
 emacs --daemon
 #+end_src
-
+then
 #+begin_src shell
 emacsclient -c
 #+end_src
-
-** Main Work
-The ~i3macs.el~ is from [[https://sqrtminusone.xyz/posts/2021-10-04-emacs-i3/][Getting a consistent set of keybindings between i3 and Emacs]] while a bit of commented out code in ~.el~ and the part of ~bash script~ are from [[https://whhone.com/posts/emacs-i3-integration/][Emacs i3 Integration]].
-
-If you can notice ~i3macs.el~ has more functions (=evil functions=). Please refer to these blogs for further details. I have covered only the functionalities relevant to me such =window transpose/layout change= and =focus=.
-
-*P.s:* I have no experience of evil that's why I also did not use other functions in the ~i3macs.el~ file.
+Now, the keybindings should work with the ~emacsclient~ session.
