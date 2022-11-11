@@ -106,6 +106,8 @@ bindsym $win+Right exec bash i3macs.sh focus right
 
 *** Layout Change
 
+Install Emacs package
+
 #+begin_src elisp
 (use-package transpose-frame
   :ensure t)
