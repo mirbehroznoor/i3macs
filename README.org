@@ -104,6 +104,15 @@ bindsym $win+Ctrl+Up exec bash i3macs.sh focus up
 bindsym $win+Ctrl+Right exec bash i3macs.sh focus right
 #+end_example
 
+*** Cycle through Workspaces
+
+I find it easier to use mode+arrow_keys for workspace switching (previous or next). The bash script is available from [[http://bryangrohman.com/i3wm-alt-tab-workspace-switcher/][Switching i3wm Workspaces with Alt + Tab]]
+
+#+begin_src example
+bindsym $win+Right exec bash i3-workspace-switcher.sh
+bindsym $win+Left exec bash i3-workspace-switcher.sh backward
+#+end_src
+
 *** Layout Change
 
 Install Emacs package
