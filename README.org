@@ -1,5 +1,5 @@
 * i3macs
-Integrate i3 and Emacs keybindings
+Integrate i3wm and Emacs keybindings
 
 ** Main Work
 The ~i3macs.el~ is from [[https://sqrtminusone.xyz/posts/2021-10-04-emacs-i3/][Getting a consistent set of keybindings between i3 and Emacs]] while a bit of code commented out in ~.el~ and mostly the ~bash scripts~ are from [[https://whhone.com/posts/emacs-i3-integration/][Emacs i3 Integration]].
@@ -95,13 +95,13 @@ i3-msg focus child
 
 *** Focus Change
 
-i3 config for focus change
+i3wm config for focus change
 
 #+begin_example
-bindsym $win+Left exec bash i3macs.sh focus left
-bindsym $win+Down exec bash i3macs.sh focus down
-bindsym $win+Up exec bash i3macs.sh focus up
-bindsym $win+Right exec bash i3macs.sh focus right
+bindsym $win+Ctrl+Left exec bash i3macs.sh focus left
+bindsym $win+Ctrl+Down exec bash i3macs.sh focus down
+bindsym $win+Ctrl+Up exec bash i3macs.sh focus up
+bindsym $win+Ctrl+Right exec bash i3macs.sh focus right
 #+end_example
 
 *** Layout Change
@@ -113,7 +113,7 @@ Install Emacs package
   :ensure t)
 #+end_src
 
-i3 config for layout change
+i3wm config for layout change
 
 #+begin_example
 bindsym $win+Ctrl+s exec bash i3macs.sh layout toggle split
