@@ -26,7 +26,7 @@ If you can notice ~i3macs.el~ has more functions (=evil functions=). Please refe
 (load-file "~/.emacs.d/elpa/dir-manual-installations/i3macs.el")
 #+end_src
 
-** Bash Scripts
+** Bash Scripts for i3wm and Emacs integration
 
 *** Script#1 i3-msg and xdotool
 
@@ -93,6 +93,8 @@ i3-msg focus child
 
 #+RESULTS:
 
+** Config for focus and layout change
+
 *** Focus Change
 
 i3wm config for focus change
@@ -103,15 +105,6 @@ bindsym $win+Ctrl+Down exec bash i3macs.sh focus down
 bindsym $win+Ctrl+Up exec bash i3macs.sh focus up
 bindsym $win+Ctrl+Right exec bash i3macs.sh focus right
 #+end_example
-
-*** Cycle through Workspaces
-
-I find it easier to use mode+arrow_keys for workspace switching (previous or next). The bash script is available from [[http://bryangrohman.com/i3wm-alt-tab-workspace-switcher/][Switching i3wm Workspaces with Alt + Tab]]
-
-#+begin_src example
-bindsym $win+Right exec bash i3-workspace-switcher.sh
-bindsym $win+Left exec bash i3-workspace-switcher.sh backward
-#+end_src
 
 *** Layout Change
 
@@ -140,3 +133,15 @@ then
 emacsclient -c
 #+end_src
 Now, the keybindings should work with the ~emacsclient~ session.
+
+
+** Additional Script
+
+*** Cycle through Workspaces
+
+I find it easier to use mode+arrow_keys for workspace switching (previous or next). The bash script is available from [[http://bryangrohman.com/i3wm-alt-tab-workspace-switcher/][Switching i3wm Workspaces with Alt + Tab]]
+
+#+begin_src example
+bindsym $win+Right exec bash i3-workspace-switcher.sh
+bindsym $win+Left exec bash i3-workspace-switcher.sh backward
+#+end_src
